@@ -39,27 +39,25 @@ func init() {
 }
 
 func MkdirIfNecessary(createDir string) (err error) {
-	s := strings.Split(createDir, path)
-	startIndex := 0
-	dir := ""
-	if s[0] == "" {
-		startIndex = 1
+	if path == "\\" {
+		createDir = strings.ReplaceAll(createDir, "/", "\\")
 	} else {
-		dir, _ = os.Getwd() //当前的目录
+		createDir = strings.ReplaceAll(createDir, "\\", "/")
 	}
-	for i := startIndex; i < len(s); i++ {
-		var d string
-		if osType == WINDOWS && filepath.IsAbs(createDir) {
-			d = strings.Join(s[startIndex:i+1], path)
+
+	dir := createDir
+	if !filepath.IsAbs(createDir) {
+		dir = GetCurrentPath()
+		if strings.HasPrefix(createDir, string(os.PathSeparator)) {
+			dir = dir + createDir
 		} else {
-			d = dir + path + strings.Join(s[startIndex:i+1], path)
+			dir = dir + string(os.PathSeparator) + createDir
 		}
-		if _, e := os.Stat(d); os.IsNotExist(e) {
-			err = os.Mkdir(d, os.ModePerm) //在当前目录下生成md目录
-			if err != nil {
-				break
-			}
-		}
+	}
+
+	_, err = os.Stat(dir)
+	if os.IsNotExist(err) {
+		err = os.MkdirAll(dir, os.ModePerm)
 	}
 
 	return err

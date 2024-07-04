@@ -28,3 +28,11 @@ func TestMkdirIfNecessaryForAbsPath(t *testing.T) {
 	err := MkdirIfNecessary(path)
 	assert.Nil(t, err)
 }
+
+func TestMkdirIfNecessaryForRelativePath(t *testing.T) {
+	//path := "/tmp/nacos/log"
+	//path := "\\tmp\\nacos\\log"
+	path := "tmp/nacos/log"
+	err := MkdirIfNecessary(path)
+	assert.Nil(t, err)
+}
