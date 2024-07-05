@@ -49,3 +49,5 @@ require (
 	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/nacos-group/nacos-sdk-go/v2 => github.com/Succeedwer/nacos-sdk-go/v2 v1.0.0
